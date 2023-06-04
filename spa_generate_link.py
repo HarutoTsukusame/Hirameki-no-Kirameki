@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 folder_path = "src"
 output_path = "ref"
 sitemap_output_path = "."
-base_url = "https://harutotsukusame.github.io/hirameki-no-kirameki/"
+base_url = "https://harutotsukusame.github.io/hirameki-no-kirameki"
 
 def extract_filename(file_path):
     return os.path.splitext(os.path.basename(file_path))[0][1:]
