@@ -18,10 +18,19 @@
 
 		gtag('config', 'G-1N62PKEYVX');
 	</script>
+	<script src="path/to/marked.min.js"></script>
 	<script>
 		const SITE_TITLE = "ひらめきのきらめき"
-		var fileReferences;
-		var fileReferencedBy;
+		var fileData;
+
+		var renderer = new marked.Renderer();
+		renderer.link = function (href, title, text) {
+			if (href.startsWith('?')) {
+				return `<a href="${href}" onclick="a(${href}); retufn false;">${text}</a>`;
+			} else {
+				return `<a href="${href} target="_blank">${text}</a>`;
+			}
+		};
 
 		function convertMarkdownToHtml(markdown, indent = 0) {
 			// 改行コードを LF に統一する
@@ -78,19 +87,14 @@
 			window.scrollTo(0, 0);
 		}
 
-		// fileAndLinkという変数が未定義の場合、"file_references.json"をfetchしてデータを取得し、変数に格納する
+		// fileAndLinkという変数が未定義の場合、"file_data.json"をfetchしてデータを取得し、変数に格納する
 		// ファイル名が指定されていない場合は、デフォルトのファイル名を設定する
 		async function showData() {
 			console.log("showData");
 
-			if (!fileReferences) {
-				const response = await fetch('ref/file_references.json');
-				fileReferences = await response.json();
-			}
-
-			if (!fileReferencedBy) {
-				const response = await fetch('ref/file_referenced_by.json');
-				fileReferencedBy = await response.json();
+			if (!fileData) {
+				const response = await fetch('ref/file_data.json');
+				fileData = await response.json();
 			}
 
 			fileName = decodeURI(location.search.substring(1));
@@ -119,7 +123,7 @@
 			element.classList.remove("hidden");
 			element.classList.add("visible");
 
-			fileReferences[fileName].forEach(f => {
+			fileData[fileName]["references"].forEach(f => {
 				appendContent(f);
 			});
 
@@ -137,20 +141,22 @@
 					// マークダウン記法による文字列操作
 					let data = `#${fileName}\r\n${text}`;
 
-					// 参照されているファイルのリストを追加
-					if (fileReferencedBy[fileName]) {
-						data += "\r\n\r\n##関連のありそうなページ\r\n";
-						fileReferencedBy[fileName].forEach(referencedBy => {
-							data += `- ${referencedBy}\r\n`;
-						});
-					}
-
 					// リンクの変換を実施する
-					if (fileReferences[fileName].length > 0) {
-						let regex = new RegExp(`(${fileReferences[fileName].join('|')})`, 'g');
-						data = data.replace(regex, "[$1]qj(?$1)");
+					if (fileData[fileName].length > 0) {
+						let regex = new RegExp(`(${fileData[fileName].join('|')})`, 'g');
+						data = data.replace(regex, "[$1](?$1)");
 					}
 					data = convertMarkdownToHtml(data);
+
+					// 参照されているファイルのリストを追加
+					if (fileData[fileName]["referenced_by"]) {
+						data += "<h2>関連のありそうなページ</h2>";
+						var list = "";
+						fileData[fileName]["referenced_by"].forEach(referencedBy => {
+							list += `<li>${referencedBy}</li>`;
+						});
+						data += `<ul>${list}</ul>`;
+					}
 
 					// 要素を作成し、データを追加する
 					const container = document.createElement("section");
