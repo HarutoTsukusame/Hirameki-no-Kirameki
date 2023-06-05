@@ -106,7 +106,7 @@
 					if (fileData[fileName]["referenced_by"]) {
 						data += "## 関連のありそうなページ\r\n\r\n";
 						fileData[fileName]["referenced_by"].forEach(referencedBy => {
-							data += `[${referencedBy}](?${referencedBy})\r\n`;
+							data += `- [${referencedBy}](?${referencedBy})\r\n`;
 						});
 					}
 
