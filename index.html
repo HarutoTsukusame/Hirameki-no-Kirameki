@@ -32,8 +32,11 @@
 				return `<a href="${href} target="_blank">${text}</a>`;
 			}
 		};
-		console.log(marked.setOptions);
-		marked.setOptions({ renderer: renderer });
+
+		marked.setOptions({
+			headerIds: false,
+			renderer: renderer,
+		});
 
 		function a(value) {
 			window.history.pushState(null, '', `?${value}`);
