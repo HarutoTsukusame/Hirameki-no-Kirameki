@@ -52,6 +52,7 @@
 			}
 
 			fileName = decodeURI(location.search.substring(1));
+			console.log(`showData:${fileName}`);
 			if (fileName == "") { fileName = SITE_TITLE; }
 			await appendContent(fileName);
 
