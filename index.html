@@ -32,6 +32,7 @@
 				return `<a href="${href} target="_blank">${text}</a>`;
 			}
 		};
+		marked.setOptions({ renderer: renderer });
 
 		function convertMarkdownToHtml(markdown, indent = 0) {
 			// 改行コードを LF に統一する
