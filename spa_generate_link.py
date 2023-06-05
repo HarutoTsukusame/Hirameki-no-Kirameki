@@ -25,6 +25,8 @@ for filename in filenames:
                 file_data[ref_filename]["referenced_by"].append(filename)
 
 for filename, data in file_data.items():
+    data["references"].extend(data["referenced_by"])
+    data["references"] = list(set(data["references"]))  # 重複を削除
     data["references"].sort(key=len, reverse=True)  # 文字列が長い順に並び替え
 
 output_file_path = os.path.join(output_path, 'file_data.json')
