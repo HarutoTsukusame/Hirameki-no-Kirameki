@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    paths-ignore:  # 特定のパスへの変更を無視する
+      - 'ref/file_data.json'
+      - 'sitemap.xml'
 
 jobs:
   build:
