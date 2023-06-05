@@ -150,7 +150,8 @@
 						console.log(data);
 					}
 
-					data = convertMarkdownToHtml(data);
+					// data = convertMarkdownToHtml(data);
+					data = marked(data);
 
 					// 参照されているファイルのリストを追加
 					if (fileData[fileName]["referenced_by"]) {
