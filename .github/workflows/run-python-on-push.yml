@@ -25,3 +25,15 @@ jobs:
 
     - name: Run script
       run: python spa_generate_link.py
+
+    - name: Upload file_data.json
+      uses: actions/upload-artifact@v2
+      with:
+        name: file-data
+        path: ref/file_data.json
+
+    - name: Upload sitemap.xml
+      uses: actions/upload-artifact@v2
+      with:
+        name: sitemap
+        path: sitemap.xml
