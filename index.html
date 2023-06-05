@@ -26,7 +26,7 @@
 		var renderer = new marked.Renderer();
 		renderer.link = function (href, title, text) {
 			if (href.startsWith('?')) {
-				return `<a href="${href}" onclick="a('${text}'); retufn false;">${text}</a>`;
+				return `<a href="${href}" onclick="a('${text}'); return false;">${text}</a>`;
 			} else {
 				return `<a href="${href} target="_blank">${text}</a>`;
 			}
@@ -144,8 +144,9 @@
 					// リンクの変換を実施する
 					if (fileData[fileName]["references"].length > 0) {
 						let regex = new RegExp(`(${fileData[fileName]["references"].join('|')})`, 'g');
-						data = data.replace(regex, "[$1](?$1)");
+						data = data.replace(regex, "[$1](\?$1)");
 					}
+
 					data = convertMarkdownToHtml(data);
 
 					// 参照されているファイルのリストを追加
