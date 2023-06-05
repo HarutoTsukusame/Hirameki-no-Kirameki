@@ -54,6 +54,7 @@
 			fileName = decodeURI(location.search.substring(1));
 			console.log(`showData:${fileName}`);
 			if (fileName == "") { fileName = SITE_TITLE; }
+			console.log(`showData:${fileName}`);
 			await appendContent(fileName);
 
 			document.title = `${fileName}｜${SITE_TITLE}`;
