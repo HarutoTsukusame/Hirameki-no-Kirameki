@@ -25,6 +25,7 @@
 
 		var renderer = new marked.Renderer();
 		renderer.link = function (href, title, text) {
+			console.log(href);
 			if (href.startsWith('?')) {
 				return `<a href="${href}" onclick="a('${text}'); return false;">${text}</a>`;
 			} else {
