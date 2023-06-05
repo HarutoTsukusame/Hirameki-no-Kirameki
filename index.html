@@ -143,7 +143,7 @@
 
 					// リンクの変換を実施する
 					if (fileData[fileName].length > 0) {
-						let regex = new RegExp(`(${fileData[fileName].join('|')})`, 'g');
+						let regex = new RegExp(`(${fileData[fileName]["references"].join('|')})`, 'g');
 						data = data.replace(regex, "[$1](?$1)");
 					}
 					data = convertMarkdownToHtml(data);
