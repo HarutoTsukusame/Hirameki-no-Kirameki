@@ -102,19 +102,17 @@
 						console.log(data);
 					}
 
+					// 参照されているファイルのリストを追加
+					if (fileData[fileName]["referenced_by"]) {
+						data += "## 関連のありそうなページ\r\n\r\n";
+						fileData[fileName]["referenced_by"].forEach(referencedBy => {
+							data += `[${referencedBy}](?${referencedBy})\r\n`;
+						});
+					}
+
 					// data = convertMarkdownToHtml(data);
 					console.log(marked);
 					data = marked.marked(data);
-
-					// 参照されているファイルのリストを追加
-					if (fileData[fileName]["referenced_by"]) {
-						data += "<h2>関連のありそうなページ</h2>";
-						var list = "";
-						fileData[fileName]["referenced_by"].forEach(referencedBy => {
-							list += `<li><a href="?${referencedBy}" onclick="a('${referencedBy}'); return false;">${referencedBy}</a></li>`;
-						});
-						data += `<ul>${list}</ul>`;
-					}
 
 					// 要素を作成し、データを追加する
 					const container = document.createElement("section");
