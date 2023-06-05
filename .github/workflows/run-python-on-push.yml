@@ -28,9 +28,16 @@ jobs:
     - name: Run script
       run: python spa_generate_link.py
 
+<<<<<<< Updated upstream
     - name: Show directory contents
       run: ls -R
       
+=======
+    - name: Check for changes
+      id: git-diff
+      run: |
+        git diff --quiet && echo "::set-output name=changed::false" || echo "::set-output name=changed::true"
+>>>>>>> Stashed changes
     - name: Commit and push
       run: |
         git config user.name "GitHub Actions"
@@ -38,3 +45,4 @@ jobs:
         git add ref/file_data.json sitemap.xml
         git commit -m "Update generated files"
         git push
+      if: steps.git-diff.outputs.changed == 'true'
